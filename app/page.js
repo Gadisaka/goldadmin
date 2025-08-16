@@ -191,6 +191,7 @@ export default function DashboardPage() {
                 <tbody>
                   {created.map((v) => (
                     <tr key={v._id} className="border-t hover:bg-gray-50">
+                      <td className="p-3 font-medium">{v.amount} Birr</td>
                       <td className="p-3 font-mono text-blue-600">
                         <div className="flex items-center space-x-2">
                           <span>{v.code}</span>
@@ -225,8 +226,7 @@ export default function DashboardPage() {
                             )}
                           </button>
                         </div>
-                      </td>
-                      <td className="p-3 font-medium">{v.amount} Birr</td>
+                      </td>{" "}
                       <td className="p-3">
                         <span className="px-2 py-1 rounded-full text-xs bg-yellow-100 text-yellow-800">
                           {v.status || "unclaimed"}

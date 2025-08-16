@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [phone, setPhone] = useState("0911223344");
-  const [password, setPassword] = useState("0911223344");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -35,7 +35,7 @@ export default function LoginPage() {
 
       // Show success message and redirect
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/");
       }, 1500);
     } catch (err) {
       console.error("Login error:", err);
@@ -71,8 +71,7 @@ export default function LoginPage() {
               required
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="0911223344"
+              className="mt-1 block w-full px-3 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
 
@@ -89,8 +88,7 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="••••••••"
+              className="mt-1 block w-full px-3 py-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
 
@@ -106,9 +104,7 @@ export default function LoginPage() {
         {/* Success Message */}
         {success && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-            <p className="text-center">
-              ✅ Login successful! Redirecting to dashboard...
-            </p>
+            <p className="text-center">✅ Login successful!</p>
           </div>
         )}
 
@@ -118,12 +114,6 @@ export default function LoginPage() {
             <p className="text-center">❌ {error}</p>
           </div>
         )}
-
-        <div className="text-center text-sm text-gray-500">
-          <p>Default credentials:</p>
-          <p>Phone: 0911223344</p>
-          <p>Password: 0911223344</p>
-        </div>
       </div>
     </div>
   );

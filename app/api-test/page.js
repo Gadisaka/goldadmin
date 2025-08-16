@@ -124,8 +124,6 @@ export default function ApiTestPage() {
               <code className="block bg-blue-100 text-gray-700 p-2 rounded mt-1">
                 POST /api/vouchers/validate
                 {"\n"}Content-Type: application/json
-                {"\n"}
-                {"{"}"code": "VOUCHER123"{"}"}
               </code>
               <p className="text-blue-700 mt-1">
                 Use this to claim a voucher and update its status.

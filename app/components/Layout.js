@@ -68,29 +68,15 @@ export default function Layout({ children }) {
                 {!isCollapsed && <span>Vouchers</span>}
               </Link>
             </li>
-            <li>
-              <Link
-                href="/settings"
-                className={`flex items-center p-3 rounded transition-colors ${
-                  isActive("/settings")
-                    ? "bg-blue-600 text-white"
-                    : "hover:bg-gray-700"
-                }`}
-              >
-                <span className="text-xl mr-3">⚙️</span>
-                {!isCollapsed && <span>Settings</span>}
-              </Link>
-            </li>
           </ul>
         </nav>
 
         {/* Footer with Logout - Always at bottom */}
-        <div className="mt-auto p-4 border-t border-gray-700">
+        <div className="mt-auto p-4 border-t flex justify-center w-full border-gray-700">
           <button
             onClick={handleLogout}
-            className="flex items-center w-full p-3 rounded hover:bg-gray-700 transition-colors text-red-400 hover:text-red-300"
+            className="flex items-center  p-3 rounded text-center  hover:bg-gray-700 transition-colors text-red-400 hover:text-red-300"
           >
-            <span className="text-xl mr-3">🚪</span>
             {!isCollapsed && <span>Logout</span>}
           </button>
         </div>
