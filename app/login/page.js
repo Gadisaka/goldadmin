@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../components/AuthProvider";
 
 export default function LoginPage() {
   const [phone, setPhone] = useState("");
@@ -9,6 +10,14 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+  const { user, login } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,26 +26,19 @@ export default function LoginPage() {
     setSuccess(false);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, password }),
-      });
+      const result = await login(phone, password);
 
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || `Login failed (${res.status})`);
-        return;
+      if (result.success) {
+        setSuccess(true);
+        setError(null);
+
+        // Redirect to dashboard after successful login
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      } else {
+        setError(result.error);
       }
-
-      const data = await res.json();
-      setSuccess(true);
-      setError(null);
-
-      // Show success message and redirect
-      setTimeout(() => {
-        router.push("/");
-      }, 1500);
     } catch (err) {
       console.error("Login error:", err);
       setError("Network error. Please try again.");
@@ -44,6 +46,23 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
+  // Show loading if checking authentication
+  if (user === undefined) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't show login form if already authenticated
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -95,7 +114,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            className="w-full flex justify-center text-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
           >
             {loading ? "Logging in..." : "Login"}
           </button>

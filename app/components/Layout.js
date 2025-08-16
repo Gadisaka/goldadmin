@@ -2,21 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useAuth } from "./AuthProvider";
 
 export default function Layout({ children }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
-
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-      router.push("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  };
+  const { logout, user } = useAuth();
 
   const isActive = (path) => pathname === path;
 
@@ -72,10 +64,16 @@ export default function Layout({ children }) {
         </nav>
 
         {/* Footer with Logout - Always at bottom */}
-        <div className="mt-auto p-4 border-t flex justify-center w-full border-gray-700">
+        <div className="mt-auto p-4 border-t border-gray-700">
+          {user && !isCollapsed && (
+            <div className="mb-3 p-2 bg-gray-700 rounded text-sm">
+              <p className="text-gray-300">Logged in as:</p>
+              <p className="font-medium">{user.phone}</p>
+            </div>
+          )}
           <button
-            onClick={handleLogout}
-            className="flex items-center  p-3 rounded text-center  hover:bg-gray-700 transition-colors text-red-400 hover:text-red-300"
+            onClick={logout}
+            className="flex items-center w-full p-3 rounded hover:bg-gray-700 transition-colors text-red-400 hover:text-red-300"
           >
             {!isCollapsed && <span>Logout</span>}
           </button>
