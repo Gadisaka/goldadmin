@@ -43,7 +43,7 @@ export default function ApiTestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-8 text-gray-700">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
           Voucher API Test
@@ -109,7 +109,7 @@ export default function ApiTestPage() {
               <h4 className="font-medium text-blue-800">
                 Validate Voucher (GET)
               </h4>
-              <code className="block bg-blue-100 text-gray-700 p-2 rounded mt-1">
+              <code className="block bg-blue-100 p-2 rounded mt-1">
                 GET /api/vouchers/validate?code=VOUCHER123
               </code>
               <p className="text-blue-700 mt-1">
@@ -121,9 +121,11 @@ export default function ApiTestPage() {
               <h4 className="font-medium text-blue-800">
                 Claim Voucher (POST)
               </h4>
-              <code className="block bg-blue-100 text-gray-700 p-2 rounded mt-1">
+              <code className="block bg-blue-100 p-2 rounded mt-1">
                 POST /api/vouchers/validate
                 {"\n"}Content-Type: application/json
+                {"\n"}
+                {`{"code": "VOUCHER123"}`}
               </code>
               <p className="text-blue-700 mt-1">
                 Use this to claim a voucher and update its status.
